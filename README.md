@@ -19,7 +19,7 @@ online safety, and ensuring a positive user experience across various platforms.
   - TensorFlow/Keras: Deep learning model for classification
 - **Dataset**: Custom datasets containing labeled adult and normal content images.
 ## Dataset
-The dataset used for training the model can be downloaded from [Google Drive]((https://drive.google.com/drive/folders/1uY0FXh8dn4QBMK_g0-cgqASodXwc6Q_R?usp=drive_link)).
+The dataset used for training the model can be downloaded from [Google Drive](https://drive.google.com/drive/folders/1uY0FXh8dn4QBMK_g0-cgqASodXwc6Q_R?usp=drive_link).
 Alternatively, you can request access to the dataset by contacting the author of the project.
 
 
