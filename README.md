@@ -88,6 +88,10 @@ def load_model():
 - **Accuracy**: Achieved **94% accuracy** on the validation dataset.
 - **Loss**: Training and validation loss curves show good model convergence with minimal overfitting.
 
+## Screenshots
+![](assets/result.png)
+
+
 ## Future Scope
 - Extend the model for multi-class classification (e.g., different categories of adult content).
 - Implement real-time image classification with a live camera feed.
@@ -95,9 +99,6 @@ def load_model():
 
 ## Contributing
 Contributions are welcome! Feel free to fork the repository, raise an issue, or submit a pull request for improvements.
-
-## License
-This project is licensed under the [MIT License](LICENSE).
 
 ## Acknowledgments
 - [TensorFlow/Keras Documentation](https://www.tensorflow.org/)
