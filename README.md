@@ -18,6 +18,10 @@ online safety, and ensuring a positive user experience across various platforms.
   - Flask: Web application framework
   - TensorFlow/Keras: Deep learning model for classification
 - **Dataset**: Custom datasets containing labeled adult and normal content images.
+## Dataset
+The dataset used for training the model can be downloaded from [Google Drive]((https://drive.google.com/drive/folders/1uY0FXh8dn4QBMK_g0-cgqASodXwc6Q_R?usp=drive_link)).
+Alternatively, you can request access to the dataset by contacting the author of the project.
+
 
 ## Installation
 
@@ -31,6 +35,7 @@ online safety, and ensuring a positive user experience across various platforms.
    ```bash
    pip install -r requirements.txt
    ```
+   
 
 3. **Download the Model**:
    The `nsfw_classifier.h5` file is hosted on cloud storage. You can download it from [Google Drive]((https://drive.google.com/file/d/1n3-mQzW4urQW-xypoNgky6bjy33NXeTp/view?usp=sharing)) or another platform. 
