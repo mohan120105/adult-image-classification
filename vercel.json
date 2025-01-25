@@ -1,0 +1,11 @@
+{
+    "version": 2,
+    "builds":[
+        {
+            "src":"app_adult.py","use":"@versel/python"
+        }
+    ],
+    "routes":{
+        "src":"/(.*)","dest":"app_adult.py"
+    }
+}
