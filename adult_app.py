@@ -3,12 +3,40 @@ import numpy as np
 from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing import image
 import os
+import requests
 from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
 
+# Define the Google Drive link for the model file
+GOOGLE_DRIVE_LINK = 'https://drive.google.com/file/d/1n3-mQzW4urQW-xypoNgky6bjy33NXeTp/view?usp=sharing'
+MODEL_PATH = 'nsfw_classifier.h5'
+
+# Download the model from Google Drive
+def download_model():
+    if not os.path.exists(MODEL_PATH):
+        print("Downloading model...")
+        response = requests.get(GOOGLE_DRIVE_LINK, stream=True)
+        if response.status_code == 200:
+            with open(MODEL_PATH, 'wb') as file:
+                for chunk in response.iter_content(chunk_size=1024):
+                    if chunk:
+                        file.write(chunk)
+            print("Model downloaded successfully.")
+        else:
+            print("Failed to download model.")
+
 # Load the trained model
-model = load_model('nsfw_classifier.h5')
+def load_trained_model():
+    if os.path.exists(MODEL_PATH):
+        return load_model(MODEL_PATH)
+    else:
+        raise FileNotFoundError("Model file not found. Ensure the model is downloaded correctly.")
+
+# Initialize the model
+print("Initializing the application...")
+download_model()
+model = load_trained_model()
 
 # Define the allowed file extensions
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
