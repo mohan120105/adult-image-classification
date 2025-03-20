@@ -2,11 +2,11 @@ import streamlit as st
 import numpy as np
 import tensorflow as tf
 from tensorflow.keras.preprocessing import image
+import gdown
 import os
-import requests
 from PIL import Image
 
-# Define the Google Drive link for the model file
+# Define Google Drive link for the model file
 GOOGLE_DRIVE_LINK = 'https://drive.google.com/uc?id=1n3-mQzW4urQW-xypoNgky6bjy33NXeTp'
 MODEL_PATH = 'nsfw_classifier.h5'
 
@@ -14,25 +14,26 @@ MODEL_PATH = 'nsfw_classifier.h5'
 def download_model():
     if not os.path.exists(MODEL_PATH):
         st.info("Downloading model... Please wait.")
-        response = requests.get(GOOGLE_DRIVE_LINK, stream=True)
-        if response.status_code == 200:
-            with open(MODEL_PATH, 'wb') as file:
-                for chunk in response.iter_content(chunk_size=1024):
-                    if chunk:
-                        file.write(chunk)
+        try:
+            gdown.download(GOOGLE_DRIVE_LINK, MODEL_PATH, quiet=False)
             st.success("Model downloaded successfully.")
-        else:
-            st.error("Failed to download model.")
+        except Exception as e:
+            st.error(f"Model download failed: {e}")
 
 # Load the trained model
+@st.cache_resource
 def load_trained_model():
     if os.path.exists(MODEL_PATH):
-        return tf.keras.models.load_model(MODEL_PATH)
+        try:
+            return tf.keras.models.load_model(MODEL_PATH)
+        except Exception as e:
+            st.error(f"Error loading model: {e}")
+            return None
     else:
         st.error("Model file not found. Ensure the model is downloaded correctly.")
         return None
 
-# Initialize the model
+# Ensure model is downloaded and loaded
 download_model()
 model = load_trained_model()
 
@@ -41,7 +42,7 @@ def preprocess_image(img):
     img = img.resize((224, 224))
     img_array = image.img_to_array(img)
     img_array = np.expand_dims(img_array, axis=0)
-    img_array /= 255.0
+    img_array /= 255.0  # Ensure consistency with training preprocessing
     return img_array
 
 # Streamlit UI
@@ -57,8 +58,9 @@ if uploaded_file is not None:
     if st.button("Classify Image"):
         if model:
             img_array = preprocess_image(image_display)
-            prediction = model.predict(img_array)
-            result = "🚨 Adult Content" if prediction[0][0] > 0.5 else "✅ Safe Content"
+            with st.spinner("Classifying... Please wait."):
+                prediction = model.predict(img_array)
+                result = "🚨 Adult Content" if prediction[0][0] > 0.5 else "✅ Safe Content"
             st.subheader("Prediction:")
             st.write(result)
         else:
